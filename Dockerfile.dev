@@ -1,0 +1,13 @@
+FROM node:alpine
+
+USER node
+
+WORKDIR /app
+
+COPY package.json .
+RUN npm install
+
+COPY --chown=node:node . .
+#RUN sudo chown -R 777 /app
+
+CMD ["npm","run","start"]
