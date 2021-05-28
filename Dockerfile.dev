@@ -1,11 +1,10 @@
 FROM node:14.17
 
-USER node
-
+RUN mkdir -p /app && chown -R node:node /app
 WORKDIR /app
-RUN chown -R 'node' /app
 
 COPY package.json .
+USER node
 RUN npm install
 
 COPY --chown=node:node . .
