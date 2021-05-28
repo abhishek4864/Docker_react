@@ -3,7 +3,7 @@ FROM node:14.17
 USER node
 
 WORKDIR /app
-RUN id -un
+RUN --chown=node:node /app
 
 COPY package.json .
 RUN npm install
