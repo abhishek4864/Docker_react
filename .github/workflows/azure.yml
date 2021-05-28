@@ -21,7 +21,6 @@ env:
   AZURE_WEBAPP_NAME: msdevnxt-docker-node    # set this to your application's name
   AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
   NODE_VERSION: '14.17'                # set this to the node version to use
-  CI: true
 
 jobs:
   build-and-deploy:
@@ -36,7 +35,7 @@ jobs:
         node-version: ${{ env.NODE_VERSION }}
     - run: |
         docker build -f Dockerfile.dev -t deploy:${{ github.sha }} .
-        docker run deploy:${{ github.sha }} npm run test -- --coverage
+        docker run -e CI=true deploy:${{ github.sha }} npm run test -- --coverage
         
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v2
