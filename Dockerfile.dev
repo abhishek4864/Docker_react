@@ -3,7 +3,7 @@ FROM node:14.17
 USER node
 
 WORKDIR /app
-RUN ls -la /app
+RUN id -un
 
 COPY package.json .
 RUN npm install
