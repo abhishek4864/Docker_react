@@ -33,9 +33,18 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ env.NODE_VERSION }}
+    - name: Docker Login
+      uses: docker/login-action@v1.8.0
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }} #save corresponding secrets in repo
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
     - run: |
-        docker build -f Dockerfile.dev -t deploy:${{ github.sha }} .
-        docker run -e CI=true deploy:${{ github.sha }} npm run test -- --coverage
+        docker build -f Dockerfile.dev -t test .
+        docker run -e CI=true test npm run test
+        docker build -t yashvats1997/docker-react:${{ github.sha }} .
+        docker push yashvats1997/docker-react:${{ github.sha }} 
+
         
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v2
