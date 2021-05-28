@@ -36,7 +36,7 @@ jobs:
         node-version: ${{ env.NODE_VERSION }}
     - run: |
         docker build -f Dockerfile.dev -t deploy:${{ github.sha }} .
-        docker run deploy:${{ github.sha }} CI=true npm run test -- --coverage
+        docker run deploy:${{ github.sha }} npm run test -- --coverage
         
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v2
